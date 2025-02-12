@@ -1,21 +1,21 @@
-t = int(input("Enter number of testcases "))
-s = list(input("") for i in range(t))
-print("Output")
-for j in range(t):
-    arr = list(ord(_) for _ in s[j])
+def lexico(w):
+    arr = list(w)
     n = len(arr)
-    x=0
-    for i in range(0,n,1):
-        if(x==0):
-            if(arr[n-i-1]>arr[n-i-2]):
-                arr[n-i-1],arr[n-i-2] = arr[n-i-2],arr[n-i-1]
-                x+=1
-            elif(arr[n-i-1]<=arr[n-i-2]):
-                pass
-    s1 = ""
-    for i in range(n):
-        s1 = "".join([s1,chr(arr[i])])
-    if(s[j]==s1):
-        print("No answer")
+    i = n-2 # start from second last element
+    while (i>=0 and arr[i]>=arr[i+1]):   # eg. dkhc d<k so here i = 0
+        i-=1
+    if(i==-1):
+        return "no answer"
     else:
-        print(s1)
+        j=n-1 # start from last element
+        while(j>=i and arr[j]<=arr[i]): # check for larger char afte index 'i' , h>d so j=2
+            j-=1
+
+        arr[i],arr[j]=arr[j],arr[i] # swapping to get "hkdc", but it should be "hkcd" to be next lexicographical string
+        s = "".join(arr)
+
+        return s[:i+1] + s[i+1:][::-1]# reversing the rest of string to get next smallest string
+t = int(input("Enter number of testcases "))
+list1 = list(input("") for i in range(t))
+for w in list1:
+    print(lexico(w))
