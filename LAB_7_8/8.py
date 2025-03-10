@@ -1,15 +1,18 @@
-# Decode the message:
-# A message containing the letters from A-Z can be encoded into the numbers using the mapping
-# A-> 1, B-> 2, C-> 3, ..., Z-> 26. To decode an encoded message, you need to group the digits
-# and do the reverse mapping. You are required to display all the possible decoded messages.
-# For example: "11106" can be decoded into:
-# a. "AAJF" with the grouping (1 1 10 6)
-# b. "KJF" with the grouping (11 10 6)
-Msg = (input("Enter encoded message : "))
-D = list(int(digit) for digit in str(Msg))
-
-pairs = [] # store from 1 to 9
-for i in range(len(D)):
-    if D[i] != 0:
-        pairs.append(D[i])
-print(pairs)
+def decode(code):
+    n = len(code)
+    ways_to_decode = [0]*(n+1) # create list to store ways to decade strings [0,0,0....n+1 times]
+    ways_to_decode[0] = 1
+    if(n==0 or code[0]=='0'):
+        return 0
+    else:
+        ways_to_decode[1]=1
+        for i in range(2,n+1):
+            one_digit = int(code[i-1])
+            two_digit = one_digit + 10*int(code[i-2])
+            if(one_digit>=1):
+                ways_to_decode[i] += ways_to_decode[i-1]
+            if(two_digit>=10 and two_digit<=26):
+                ways_to_decode[i] += ways_to_decode[i-2] 
+    return ways_to_decode[n]
+str = input("Enter encoded message : ")
+print(decode(str))
